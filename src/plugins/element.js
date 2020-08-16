@@ -26,7 +26,8 @@ import {Button,
         Tag,
         Tree,
         Select,
-        Option} from 'element-ui'
+        Option,
+        Cascader} from 'element-ui'
 //添加弹窗对象,全局挂载
 Vue.prototype.$message = Message;
 Vue.probetype.$confirm = MessageBox.confirm;
@@ -56,4 +57,5 @@ Vue.use(Dialog);
 Vue.use(Tag);
 Vue.use(Tree);
 Vue.use(Select);
-Vue.use(Option)
+Vue.use(Option);
+Vue.use(Cascader)

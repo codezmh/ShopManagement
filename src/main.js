@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import TreeTable from 'vue-table-with-tree-grid'
 
 //导入图表样式
 import './assets/fonts/iconfont.css'
@@ -27,6 +28,8 @@ Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.use(ElementUI)
 
+//注册为全局组件
+Vue.component('tree-table',TreeTable)
 new Vue({
   router,
   render: h => h(App),
