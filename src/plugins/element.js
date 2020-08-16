@@ -21,9 +21,15 @@ import {Button,
         Switch,
         Tooltip,
         Pagination,
-        Dialog} from 'element-ui'
+        Dialog,
+        MessageBox,
+        Tag,
+        Tree,
+        Select,
+        Option} from 'element-ui'
 //添加弹窗对象,全局挂载
 Vue.prototype.$message = Message;
+Vue.probetype.$confirm = MessageBox.confirm;
 
 Vue.use(Button);
 Vue.use(Form);
@@ -46,4 +52,8 @@ Vue.use(TableColumn);
 Vue.use(Switch);
 Vue.use(Tooltip);
 Vue.use(Pagination);
-Vue.use(Dialog)
+Vue.use(Dialog);
+Vue.use(Tag);
+Vue.use(Tree);
+Vue.use(Select);
+Vue.use(Option)
