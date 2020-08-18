@@ -40,7 +40,7 @@
         <el-tag type="warning" size="mini" v-else>三级</el-tag>
       </template>
       <template slot="operate" slot-scope="scope">
-        <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+        <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.cat_id)">编辑</el-button>
         <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
       </template>
     </tree-table>
@@ -78,6 +78,24 @@
       <span slot="footer" class="dialog-footer">
       <el-button @click="addCateDialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="addCateFormConfirm">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑分类的对话框 -->
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px">
+         <el-form-item label="分类ID">
+          <el-input v-model="editForm.cat_id" disabled></el-input>
+        </el-form-item>
+         <el-form-item label="分类级别">
+          <el-input v-model="editForm.cat_level + 1" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="分类名称" prop="cat_name">
+          <el-input v-model="editForm.cat_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editCateInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -151,7 +169,16 @@ export default {
         children:'children'
       },
       //选中的父级分类的id数组
-      selectedKeys:[]
+      selectedKeys:[],
+      editDialogVisible:false,
+      editForm:{
+        cat_name:''
+      },
+      editFormRules:{
+        cat_name:[
+          { required: true, message: '请输入分类名称', trigger: 'blur' },
+        ]
+      }
     }
   },
   created(){
@@ -231,6 +258,31 @@ export default {
       this.selectedKeys = [],
       this.addCateForm.cat_pid = 0;
       this.addCateForm.cat_level = 0;
+    },
+    editDialogClosed() {
+      this.$refs.editFormRef.resetFields()
+    },
+    editCateInfo() {
+      this.$refs.editFormRef.validate(async valid => {
+        if(!valid) return this.$message.error('请填写必填的信息!')
+        const {data: res} = await this.$http.put(`categories/${this.editForm.cat_id}`,{
+          cat_name:this.editForm.cat_name
+        })
+        if(res.meta.status !== 200) {
+          return this.$message.error('更新分类名称失败!')
+        }
+        this.$message.success('更新分类名称成功!')
+        this.editDialogVisible =false 
+        this.getCateList()
+      })
+    },
+    async showEditDialog(cat_id) {
+      const {data: res} = await this.$http.get(`categories/${cat_id}`)
+      if(res.meta.status !== 200) {
+        return this.$message.error('获取分类信息失败!')
+      }
+      this.editForm = res.data;
+      this.editDialogVisible =true
     }
   }
 }

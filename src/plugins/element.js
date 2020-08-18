@@ -37,7 +37,8 @@ import {Button,
         Checkbox,
         Upload,
         Timeline,
-        TimelineItem} from 'element-ui'
+        TimelineItem,
+        Image} from 'element-ui'
 //添加弹窗对象,全局挂载
 Vue.prototype.$message = Message;
 Vue.probetype.$confirm = MessageBox.confirm;
@@ -78,4 +79,5 @@ Vue.use(CheckboxGroup);
 Vue.use(Checkbox);
 Vue.use(Upload);
 Vue.use(Timeline);
-Vue.use(TimelineItem)
+Vue.use(TimelineItem);
+Vue.use(Image)
